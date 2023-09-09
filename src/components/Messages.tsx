@@ -44,7 +44,7 @@ const Messages: FC<MessagesProps> = ({
 
       pusherClient.unbind("incoming_message", messageHandler);
     };
-  });
+  }, [chatId]);
 
   return (
     <div

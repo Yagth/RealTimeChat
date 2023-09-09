@@ -34,7 +34,7 @@ const SidebarChatList: FC<SidebarChatListProps> = ({ friends, sessionId }) => {
     const chatHandler = (message: ExtendedMessage) => {
       const shouldNotify =
         pathname !==
-        `/dashboard/chat/${chatHrefConstructor(sessionId, message.senderId)}`;
+        `/dashboard/chats/${chatHrefConstructor(sessionId, message.senderId)}`;
 
       if (!shouldNotify) return;
 
@@ -58,6 +58,9 @@ const SidebarChatList: FC<SidebarChatListProps> = ({ friends, sessionId }) => {
     return () => {
       pusherClient.unsubscribe(toPusherKey(`user:${sessionId}:chats`));
       pusherClient.unsubscribe(toPusherKey(`user:${sessionId}:friends`));
+
+      pusherClient.unbind("new_message", chatHandler);
+      pusherClient.unbind("new_friend", newFriendHandler);
     };
   }, [pathname, sessionId, router]);
 
