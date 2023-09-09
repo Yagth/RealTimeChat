@@ -4,7 +4,6 @@ import { db } from "@/lib/db";
 import { messageArrayValidator } from "@/lib/validations/message";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
-import { FC } from "react";
 
 interface PageProps {
   params: {
@@ -45,7 +44,7 @@ const page = async ({ params }: PageProps) => {
   const { user } = session;
   const [userId1, userId2] = chatId.split("--");
 
-  if (user.id !== userId1 || user.id !== userId2) notFound();
+  if (user.id !== userId1 && user.id !== userId2) notFound();
 
   const chatPartnerId = user.id === userId1 ? userId2 : userId1;
   const chatPartner = (await db.get(`user:${chatPartnerId}`)) as User;
