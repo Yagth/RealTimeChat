@@ -19,7 +19,8 @@ export async function POST(req: Request) {
     //verify both friends are not already friends
     const isAlreadyFriends = await fetchRedis(
       "sismember",
-      `user:${session.user.id}:friends`
+      `user:${session.user.id}:friends`,
+      idToAdd
     );
 
     if (isAlreadyFriends) {

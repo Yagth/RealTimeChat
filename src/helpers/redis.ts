@@ -17,6 +17,8 @@ export async function fetchRedis(
   });
 
   if (!response.ok) {
+    console.log("Executing command: ", commandUrl);
+
     throw new Error(`Error executing Redis command:  ${response.statusText}`);
   }
 
