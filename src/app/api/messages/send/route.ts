@@ -6,6 +6,8 @@ import { timeStamp } from "console";
 import { getServers } from "dns";
 import { getServerSession } from "next-auth";
 import { nanoid } from "nanoid";
+import { pusherServer } from "@/lib/pusher";
+import { toPusherKey } from "@/lib/utils";
 
 export async function POST(req: Request) {
   try {
@@ -48,6 +50,14 @@ export async function POST(req: Request) {
       timestamp,
     };
     const message = messageValidator.parse(messageData);
+
+    //Notify the clients
+    pusherServer.trigger(
+      toPusherKey(`chat:${chatId}`),
+      "incoming_message",
+      message
+    );
+
     //The 'score' field is used to determine what to use to sort the members
     await db.zadd(`chat:${chatId}:messages`, {
       score: timestamp,
