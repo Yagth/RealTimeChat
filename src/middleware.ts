@@ -30,7 +30,7 @@ export default withAuth(
     }
   },
   {
-    //This callbacks allows the middleware to be called everytime. Otherwise we would face an infinite redirect.
+    //This callbacks, specific to NEXTjs, allows the middleware to be called everytime. Otherwise we would face an infinite redirect.
     callbacks: {
       async authorized() {
         return true;
